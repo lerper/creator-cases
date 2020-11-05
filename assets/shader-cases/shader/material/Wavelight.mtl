@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.Material",
+  "_name": "Wavelight",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "2a8552e3-2ac3-4ed1-9bff-430c0ab8a2e6"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "lightColor": {
+          "__type__": "cc.Color",
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true,
+        "INPUT_IS_GAMMA": false,
+        "ENABLE_WAVELIGHT": true
+      }
+    }
+  }
+}

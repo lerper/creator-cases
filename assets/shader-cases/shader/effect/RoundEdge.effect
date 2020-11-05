@@ -1,0 +1,112 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+        radius: {
+          value: 0.2,
+          editor: {
+            tooltip: '圆角半径'
+          }
+        }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    v_uv0 = a_uv0;
+    #endif
+
+    v_color = a_color;
+
+    gl_Position = pos;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+  
+  #include <alpha-test>
+  #include <texture>
+
+  in vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  #endif
+
+  #if ENABLE_ROUNDEDGE
+  uniform RoundEdge {
+    //圆角半径
+    float radius;
+  };
+  #endif
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+      CCTexture(texture, v_uv0, o);
+    #endif
+
+    o *= v_color;
+
+    ALPHA_TEST(o);
+
+    #if ENABLE_ROUNDEDGE
+    // 约束圆角半径范围在[0.0, 0.5]
+    // clamp(x, min, max) 返回[min, max]的中间值
+    float radius_c = clamp(radius, 0.0, 0.5);
+    // 将纹理uv往左上偏移，实现偏移后的坐标系原点在纹理中心 
+    vec2 uv = v_uv0.xy - vec2(0.5, 0.5);
+    // 计算出位于圆角矩形的uv范围
+    float rx = abs(uv.x) - (0.5 - radius_c);
+    float ry = abs(uv.y) - (0.5 - radius_c);
+    // mx * my = 1时位于圆角矩形，否则正常显示
+    // step(a, b) 如果 b < a，返回 0，否则返回 1
+    float mx = step((0.5 - radius_c), abs(uv.x));
+    float my = step((0.5 - radius_c), abs(uv.y));
+    // 圆角矩形内uv点到原点距离
+    float len = length(vec2(abs(rx), abs(ry)));
+    float a = 1.0 - mx * my * step(radius_c, len) * smoothstep(0., radius_c * 0.05, len - radius_c);
+    o = vec4(o.rgb, o.a * a);
+    #endif
+
+    gl_FragColor = o;
+  }
+}%

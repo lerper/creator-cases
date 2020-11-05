@@ -1,0 +1,17 @@
+{
+  "__type__": "cc.Material",
+  "_name": "CirclePortrait2",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "62e49cbf-d333-4986-a9a9-86d5825da7a4"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true
+      }
+    }
+  }
+}

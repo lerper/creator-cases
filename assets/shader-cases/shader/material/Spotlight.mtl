@@ -1,0 +1,30 @@
+{
+  "__type__": "cc.Material",
+  "_name": "Spotlight",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "97cb3132-65e2-49dd-9fba-81d39a58939c"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "radius": 0.2,
+        "enableFog": 1,
+        "spotColor": {
+          "__type__": "cc.Color",
+          "r": 138,
+          "g": 255,
+          "b": 0,
+          "a": 0
+        }
+      },
+      "defines": {
+        "USE_TEXTURE": true,
+        "ENABLE_DIFFUSION": true,
+        "USE_ALPHA_TEST": false
+      }
+    }
+  }
+}

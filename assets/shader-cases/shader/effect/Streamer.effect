@@ -1,0 +1,194 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+
+        # 流光颜色
+        lightColor: {
+          value: [1.0, 1.0, 1.0, 1.0], 
+          editor: { 
+            type: color,
+            tooltip: "流光颜色"
+          } 
+        }
+
+        # 流光中心
+        light: {
+          value: [0.2, 0.2],
+          editor: {
+            tooltip: "流光中心" 
+          }
+        }
+        
+        # 流光角度
+        lightAngle: {
+          value: 0.0,
+          editor: {
+            tooltip: "流光角度",
+            range: [0.0, 180.0],
+          } 
+        }
+
+        # 流光宽度
+        lightWidth: {
+          value: 0.2,
+          editor: {
+            tooltip: "流光宽度"
+          }
+        }
+
+        # 是否启用迷雾效果
+        enableFog: {
+          value: 0.0,
+          editor: {
+            tooltip: "是否启用迷雾效果(0:不启用 非0:启用)"
+          }
+        }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    v_uv0 = a_uv0;
+    #endif
+
+    v_color = a_color;
+
+    gl_Position = pos;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+  
+  #include <alpha-test>
+  #include <texture>
+
+  in vec4 v_color;
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  #endif
+
+  #if ENABLE_STREAMER
+  uniform Streamer {
+    // 流光颜色
+    vec4 lightColor;
+    // 流光中心
+    vec2 light;
+    // 流光角度
+    float lightAngle;
+    // 流光宽度
+    float lightWidth;
+    // 是否启用迷雾效果
+    // ps: 编辑器还不支持 bool 类型, 因此用float来定义
+    float enableFog;
+  };
+
+  // 添加流光
+  // ps: 图片自动合图有可能会导致 shader 显示错误 取消 texture 的 Packable 的勾选
+  vec4 addLightColor(vec4 color, vec4 lightColor, vec2 light, float lightAngle, float lightWidth) {
+    if (lightWidth <= 0.0) {
+      return color;
+    }
+
+    // radians(angle) 角度转弧度
+    float radians = radians(lightAngle);
+    // 角度0 与 非0 不同处理
+    float dis = 0.0;
+    if (mod(lightAngle, 180.0) != 0.0) {
+      // 计算光束中心线下方与X轴交点的X坐标
+      // 1.0 - light.y 是将转换为OpenGL坐标系, 即第四象限, 下文的 1.0 - y 类似
+      float offsetX = light.x - ((1.0 - light.y) / tan(radians));
+
+      // 以当前点画一条平行于X轴的线, 假设此线和光束中心线相交的点为D点
+      // 那么
+      // D.y = uv0.y
+      // D.x = offsetX + D.y / tan(radians)
+      float dx = offsetX + (1.0 - v_uv0.y) / tan(radians);
+
+      // D 到当前 uv0 的距离就是
+      // dis = |uv0.x - D.x|
+      float offsetDis = abs(v_uv0.x - dx);
+
+      // 当前点到光束中心线的垂直距离
+      dis = sin(radians) * offsetDis;
+    } else {
+      dis = abs(v_uv0.y - light.y);
+    }
+    
+    float a = 1.0 ;
+    // 裁剪掉透明区域上的点光
+    // 适配Label边缘抗锯齿
+    if (bool(1.0)) {
+      a *= step(0.3, color.a);
+    }
+
+    // 加入从中心往外渐变的效果
+    if (dis <= lightWidth * 0.5) {
+      a *= 1.0 - dis / (lightWidth * 0.5);
+    } else {
+      a = 0.0;
+    }
+    if (bool(enableFog)) color = vec4(color.rgb, a);
+
+    lightColor = lightColor * a;
+    // 混合颜色 在原始图像颜色上叠加扩散颜色
+    return color * color.a + lightColor;
+  }
+  #endif
+
+  void main () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+      CCTexture(texture, v_uv0, o);
+    #endif
+
+    o *= v_color;
+
+    ALPHA_TEST(o);
+
+    gl_FragColor = o;
+
+    #if ENABLE_STREAMER
+    gl_FragColor = addLightColor(gl_FragColor, lightColor, light, lightAngle, lightWidth);
+    #endif
+  }
+}%
