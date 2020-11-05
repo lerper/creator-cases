@@ -13,6 +13,10 @@ export default class Main extends cc.Component {
     start() {
         const cases = [
             {
+                title: "2d-cases",
+                items: ["three.js-demo"]
+            },
+            {
                 title: "3d-cases",
                 items: ["ParticleCase"]
             },

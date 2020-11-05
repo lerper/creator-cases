@@ -10,7 +10,7 @@
   "_techniqueData": {
     "0": {
       "props": {
-        "radius": 0.2,
+        "radius": 0.3,
         "enableFog": 1,
         "spotColor": {
           "__type__": "cc.Color",
