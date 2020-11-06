@@ -14,7 +14,7 @@ export default class Main extends cc.Component {
         const cases = [
             {
                 title: "2d-cases",
-                items: ["three.js-demo"]
+                items: ["three.js-demo", "RigidBody-demo", "PeekCard-mask"]
             },
             {
                 title: "3d-cases",
