@@ -5,7 +5,7 @@
 https://sreeding.github.io/creator-cases/
 
 #
-ps: 部分case整理来源论坛，再次感谢。
+鸣谢：
 
 1.List: https://github.com/gh-kL/cocoscreator-list
 
@@ -14,3 +14,5 @@ ps: 部分case整理来源论坛，再次感谢。
 3.rigidbody-demo: anonymous
 
 4.peekcard-mask: anonymous
+
+5.GLSL Sandbox: http://glslsandbox.com/
