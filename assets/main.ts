@@ -7,8 +7,18 @@ export default class Main extends cc.Component {
 
     @property(List)
     mainList: List = null;
+    @property(sp.Skeleton)
+    touch: sp.Skeleton = null;
 
     cases: Array<{ title: string, items: string[] }> = null;
+
+    onLoad() {
+        this.node.on(cc.Node.EventType.TOUCH_START, (event: cc.Event.EventTouch) => {
+            const nodePos = this.node.convertToNodeSpaceAR(event.getLocation());
+            this.touch.node.position = cc.v3(nodePos.x, nodePos.y, 0);
+            this.touch && this.touch.setAnimation(0, "action", false);
+        }, this, true);
+    }
 
     start() {
         const cases = [
@@ -22,7 +32,10 @@ export default class Main extends cc.Component {
             },
             {
                 title: "shader-cases",
-                items: ["EffectCase", "SpotlightCase", "WaveCase", "WavelightCase"]
+                items: [
+                    "EffectCase", "SpotlightCase", "WaveCase", "WavelightCase", "FiretunnelCase",
+                    "MechaspaceCase"
+                ]
             }
         ];
         this.cases = cases;
@@ -48,6 +61,6 @@ export default class Main extends cc.Component {
     onItemClick(event: cc.Event.EventTouch) {
         const target: cc.Node = event.target;
         const str = target.getChildByName("title").getComponent(cc.Label).string;
-        if(str && str != "敬请期待") cc.director.loadScene(str);
+        if (str && str != "敬请期待") cc.director.loadScene(str);
     }
 }

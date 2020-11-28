@@ -1,0 +1,266 @@
+{
+    "skeleton": {
+        "hash": "iHs46SL3RC16UQ+wZPPcE/jYLtY",
+        "spine": "3.5.49",
+        "width": 0,
+        "height": 0,
+        "images": "./images/"
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root"
+        },
+        {
+            "name": "bone2",
+            "parent": "root"
+        },
+        {
+            "name": "bone7",
+            "parent": "root",
+            "length": 159.27,
+            "rotation": 180
+        }
+    ],
+    "slots": [
+        {
+            "name": "02",
+            "bone": "bone",
+            "blend": "additive"
+        },
+        {
+            "name": "022",
+            "bone": "bone2",
+            "blend": "additive"
+        },
+        {
+            "name": "6_0000",
+            "bone": "bone7",
+            "blend": "additive"
+        }
+    ],
+    "skins": {
+        "default": {
+            "02": {
+                "02": {
+                    "width": 180,
+                    "height": 180
+                }
+            },
+            "022": {
+                "02": {
+                    "width": 180,
+                    "height": 180
+                }
+            },
+            "6_0000": {
+                "6_0000": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0001": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0002": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0003": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0004": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0005": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0006": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0007": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0008": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                },
+                "6_0009": {
+                    "rotation": 180,
+                    "width": 720,
+                    "height": 720
+                }
+            }
+        }
+    },
+    "animations": {
+        "action": {
+            "slots": {
+                "02": {
+                    "color": [
+                        {
+                            "time": 0,
+                            "color": "ffffff00"
+                        },
+                        {
+                            "time": 0.1667,
+                            "color": "ffffffff"
+                        },
+                        {
+                            "time": 0.5,
+                            "color": "ffffff00"
+                        }
+                    ],
+                    "attachment": [
+                        {
+                            "time": 0,
+                            "name": "02"
+                        }
+                    ]
+                },
+                "022": {
+                    "color": [
+                        {
+                            "time": 0.1667,
+                            "color": "ffffff00"
+                        },
+                        {
+                            "time": 0.3333,
+                            "color": "ffffffff"
+                        },
+                        {
+                            "time": 0.8333,
+                            "color": "ffffff00"
+                        }
+                    ],
+                    "attachment": [
+                        {
+                            "time": 0.1667,
+                            "name": "02"
+                        }
+                    ]
+                },
+                "6_0000": {
+                    "color": [
+                        {
+                            "time": 0,
+                            "color": "ffffff00"
+                        },
+                        {
+                            "time": 0.1,
+                            "color": "ffffffff",
+                            "curve": "stepped"
+                        },
+                        {
+                            "time": 0.7,
+                            "color": "ffffffff"
+                        },
+                        {
+                            "time": 0.9,
+                            "color": "ffffff00"
+                        }
+                    ],
+                    "attachment": [
+                        {
+                            "time": 0,
+                            "name": "6_0000"
+                        },
+                        {
+                            "time": 0.1,
+                            "name": "6_0001"
+                        },
+                        {
+                            "time": 0.2,
+                            "name": "6_0002"
+                        },
+                        {
+                            "time": 0.3,
+                            "name": "6_0003"
+                        },
+                        {
+                            "time": 0.4,
+                            "name": "6_0004"
+                        },
+                        {
+                            "time": 0.5,
+                            "name": "6_0005"
+                        },
+                        {
+                            "time": 0.6,
+                            "name": "6_0006"
+                        },
+                        {
+                            "time": 0.7,
+                            "name": "6_0007"
+                        },
+                        {
+                            "time": 0.8,
+                            "name": "6_0008"
+                        },
+                        {
+                            "time": 0.9,
+                            "name": "6_0009"
+                        }
+                    ]
+                }
+            },
+            "bones": {
+                "bone": {
+                    "scale": [
+                        {
+                            "time": 0,
+                            "x": 0.4,
+                            "y": 0.4
+                        },
+                        {
+                            "time": 0.1667,
+                            "x": 0.8,
+                            "y": 0.8
+                        },
+                        {
+                            "time": 0.5,
+                            "x": 1.2,
+                            "y": 1.2
+                        }
+                    ]
+                },
+                "bone2": {
+                    "scale": [
+                        {
+                            "time": 0.1667,
+                            "x": 0.4,
+                            "y": 0.4
+                        },
+                        {
+                            "time": 0.3333,
+                            "x": 0.8,
+                            "y": 0.8
+                        },
+                        {
+                            "time": 0.8333,
+                            "x": 1.2,
+                            "y": 1.2
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
