@@ -13,14 +13,7 @@ CCEffect %{
       properties:
         texture: { value: white }
         alphaThreshold: { value: 0.5 }
-
-        # 图片分辨率
-        iResolution: {
-          value: [1280., 720.], 
-          editor: { 
-            tooltip: "图片分辨率"
-          } 
-        }
+        resolution: { value: [1280., 720.] }
 }%
 
 
@@ -61,12 +54,10 @@ CCProgram vs %{
 
 CCProgram fs %{
   precision highp float;
-
-  #define F cos(x-y)*cos(y),sin(x+y)*sin(y)
   
   #include <alpha-test>
-  #include <cc-global>
   #include <texture>
+  #include <cc-global>
 
   in vec4 v_color;
 
@@ -75,28 +66,10 @@ CCProgram fs %{
   uniform sampler2D texture;
   #endif
 
-  #if ENABLE_WAVE
-  uniform Water {
-    // 图片分辨率
-    vec2 iResolution;
+  uniform Params {
+    vec2 resolution;
   };
-
-  vec2 s(vec2 p)
-  {
-      float d = cc_time.x * 0.4, x = 8. * (p.x + d), y = 8.*(p.y + d);
-      return vec2(F);
-  }
-  void mainImage(out vec4 fragColor, in vec2 fragCoord ) {
-      // 换成 resolution
-      vec2 rs = iResolution.xy;
-      // 换成纹理坐标 v_texCoord.xy
-      vec2 uv = fragCoord;
-      vec2 q = uv + 2. / iResolution.x * (s(uv) - s(uv + rs));
-      // 反转 y
-      // q.y = 1. - q.y;
-      fragColor = texture2D(texture, q);
-  }
-  #endif
+  float time = cc_time.x;
 
   void main () {
     vec4 o = vec4(1, 1, 1, 1);
@@ -109,10 +82,9 @@ CCProgram fs %{
 
     ALPHA_TEST(o);
 
-    gl_FragColor = o;
-
-    #if ENABLE_WAVE
-      mainImage(gl_FragColor, v_uv0.xy);
-    #endif
+    vec2 uv = ( gl_FragCoord.xy / resolution.xy ) * 2.0 - 1.0;
+	  vec3 finalColor = vec3 ( 1.0, 0.1, 0.5 );
+	  finalColor *= abs( 1.0 / (sin( uv.x + sin(uv.y+time)* 0.10 ) * 40.0) );
+	  gl_FragColor = vec4( finalColor, 1.0 );
   }
 }%
