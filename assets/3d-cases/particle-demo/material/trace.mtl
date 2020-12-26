@@ -1,0 +1,19 @@
+{
+  "__type__": "cc.Material",
+  "_name": "streak - 001",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "829a282c-b049-4019-bd38-5ace8d8a6417"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "mainTexture": {
+          "__uuid__": "fa2ced05-03f5-4b86-9811-9a11b12ffc60"
+        }
+      }
+    }
+  }
+}
