@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    onLoad() {
+    start() {
         const tip = new cc.Node("tip");
         tip.parent = this.node;
         tip.setAnchorPoint(1, 0);

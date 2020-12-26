@@ -1,0 +1,26 @@
+{
+  "__type__": "cc.Material",
+  "_name": "blade",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "829a282c-b049-4019-bd38-5ace8d8a6417"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {
+        "mainTexture": {
+          "__uuid__": "e94b317e-d618-4a43-a912-931d4d2aa369"
+        },
+        "mainTiling_Offset": {
+          "__type__": "cc.Vec4",
+          "x": 1,
+          "y": 0.25,
+          "z": 0,
+          "w": 0.25
+        }
+      }
+    }
+  }
+}
