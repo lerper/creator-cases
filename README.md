@@ -2,7 +2,7 @@
 
 本项目面向 Creator 的开发人员，包含相关功能范例供参考学习。
 
-https://sreeding.github.io/creator-cases/
+https://lerper.github.io/creator-cases/
 
 #
 鸣谢：
